@@ -75,6 +75,8 @@ class DbWrapper {
 
   _save() {
     const data = this._db.export();
+    const dir = path.dirname(DB_PATH);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(DB_PATH, Buffer.from(data));
   }
 }
