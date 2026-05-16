@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Sistema de gestao para padaria",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
     "start": "node backend/server.js",
     "install-deps": "cd frontend && npm install && cd ../backend && npm install"
   },
