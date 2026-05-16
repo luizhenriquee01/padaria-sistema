@@ -1,0 +1,24 @@
+{
+  "name": "Padaria - Sistema de Gestao",
+  "short_name": "Padaria",
+  "description": "Sistema de gestao da padaria",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff7ed",
+  "theme_color": "#c2410c",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icone-padaria.svg",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icone-padaria.svg",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

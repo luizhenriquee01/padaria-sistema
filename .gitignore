@@ -1,0 +1,22 @@
+# Dependencias
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build do frontend
+frontend/dist/
+
+# Banco de dados local (cada ambiente tem o seu)
+backend/db/padaria.db
+
+# Variaveis de ambiente
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
