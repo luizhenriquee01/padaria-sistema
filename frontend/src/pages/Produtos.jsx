@@ -7,10 +7,13 @@ const fmt = (v) => v?.toLocaleString('pt-BR', { style: 'currency', currency: 'BR
 
 const norm = str => (str || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
+const SETORES_PROD = ['Salgado', 'Bolo', 'Pao', 'Doce', 'Frango', 'Outros'];
+const SETOR_EMOJI_P = { Salgado: '🥟', Bolo: '🎂', Pao: '🍞', Doce: '🍬', Frango: '🍗', Outros: '📦' };
+
 const VAZIO = {
   nome: '', categoria_id: '', preco_venda: '', preco_custo: '',
   unidade: 'un', codigo_barras: '', quantidade_inicial: '', quantidade_minima: '5',
-  por_peso: 0,
+  por_peso: 0, setor: '',
 };
 
 // Modelo CSV para download
@@ -65,7 +68,7 @@ export default function Produtos() {
       nome: p.nome, categoria_id: p.categoria_id || '', preco_venda: p.preco_venda,
       preco_custo: p.preco_custo || '', unidade: p.unidade, codigo_barras: p.codigo_barras || '',
       quantidade_inicial: '', quantidade_minima: p.quantidade_minima || '5',
-      por_peso: p.por_peso || 0,
+      por_peso: p.por_peso || 0, setor: p.setor || '',
     });
     setEditando(p.id);
     setModal(true);
@@ -330,6 +333,24 @@ export default function Produtos() {
                   </select>
                 </div>
               </div>
+              {/* Setor de producao */}
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Setor de producao (para encomendas)</label>
+                <div className="flex gap-1.5 flex-wrap">
+                  {SETORES_PROD.map(s => (
+                    <button key={s} type="button"
+                      onClick={() => setForm(f => ({ ...f, setor: f.setor === s ? '' : s }))}
+                      className={`text-xs px-3 py-1.5 rounded-xl border-2 font-semibold transition-colors ${
+                        form.setor === s
+                          ? 'bg-orange-100 border-orange-400 text-orange-700'
+                          : 'bg-gray-50 border-gray-200 text-gray-500'
+                      }`}>
+                      {SETOR_EMOJI_P[s]} {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Toggle: Vendido por Peso */}
               <div>
                 <button

@@ -219,6 +219,21 @@ async function createDb() {
   try { db._db.run('ALTER TABLE vendas ADD COLUMN cliente_id INTEGER'); } catch {}
   try { db._db.run('ALTER TABLE vendas ADD COLUMN usuario_id INTEGER'); } catch {}
   try { db._db.run('ALTER TABLE produtos ADD COLUMN por_peso INTEGER DEFAULT 0'); } catch {}
+  try { db._db.run('ALTER TABLE produtos ADD COLUMN setor TEXT'); } catch {}
+
+  db._db.run(`
+    CREATE TABLE IF NOT EXISTS itens_encomenda (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      encomenda_id INTEGER NOT NULL,
+      produto_id INTEGER,
+      nome TEXT NOT NULL,
+      quantidade REAL NOT NULL DEFAULT 1,
+      unidade TEXT DEFAULT 'un',
+      setor TEXT,
+      FOREIGN KEY (encomenda_id) REFERENCES encomendas(id),
+      FOREIGN KEY (produto_id) REFERENCES produtos(id)
+    )
+  `);
 
   db._save();
 

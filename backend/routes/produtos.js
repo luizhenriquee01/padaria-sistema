@@ -177,11 +177,11 @@ module.exports = function(db) {
     const { nome, categoria_id, preco_venda, preco_custo, unidade, codigo_barras, quantidade_inicial, quantidade_minima } = req.body;
     if (!nome || !preco_venda) return res.status(400).json({ erro: 'Nome e preco sao obrigatorios' });
 
-    const { por_peso } = req.body;
+    const { por_peso, setor } = req.body;
     const inserir = db.transaction(() => {
       const prod = db.prepare(
-        'INSERT INTO produtos (nome, categoria_id, preco_venda, preco_custo, unidade, codigo_barras, por_peso) VALUES (?, ?, ?, ?, ?, ?, ?)'
-      ).run(nome, categoria_id || null, preco_venda, preco_custo || 0, unidade || 'un', codigo_barras || null, por_peso ? 1 : 0);
+        'INSERT INTO produtos (nome, categoria_id, preco_venda, preco_custo, unidade, codigo_barras, por_peso, setor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+      ).run(nome, categoria_id || null, preco_venda, preco_custo || 0, unidade || 'un', codigo_barras || null, por_peso ? 1 : 0, setor || null);
 
       db.prepare(
         'INSERT INTO estoque (produto_id, quantidade, quantidade_minima) VALUES (?, ?, ?)'
@@ -206,10 +206,10 @@ module.exports = function(db) {
 
   // ── Atualizar produto ────────────────────────────────────────────────────
   router.put('/:id', (req, res) => {
-    const { nome, categoria_id, preco_venda, preco_custo, unidade, codigo_barras, por_peso } = req.body;
+    const { nome, categoria_id, preco_venda, preco_custo, unidade, codigo_barras, por_peso, setor } = req.body;
     db.prepare(
-      'UPDATE produtos SET nome=?, categoria_id=?, preco_venda=?, preco_custo=?, unidade=?, codigo_barras=?, por_peso=? WHERE id=?'
-    ).run(nome, categoria_id || null, preco_venda, preco_custo || 0, unidade || 'un', codigo_barras || null, por_peso ? 1 : 0, req.params.id);
+      'UPDATE produtos SET nome=?, categoria_id=?, preco_venda=?, preco_custo=?, unidade=?, codigo_barras=?, por_peso=?, setor=? WHERE id=?'
+    ).run(nome, categoria_id || null, preco_venda, preco_custo || 0, unidade || 'un', codigo_barras || null, por_peso ? 1 : 0, setor || null, req.params.id);
     res.json({ mensagem: 'Produto atualizado' });
   });
 
