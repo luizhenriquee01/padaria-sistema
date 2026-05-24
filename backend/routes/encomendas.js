@@ -82,10 +82,10 @@ module.exports = function(db) {
 
     if (!cliente_nome || !cliente_nome.trim())
       return res.status(400).json({ erro: 'Nome do cliente obrigatorio' });
+    if (!descricao || !descricao.trim())
+      return res.status(400).json({ erro: 'Descreva o que foi encomendado' });
     if (!data_entrega)
       return res.status(400).json({ erro: 'Data de entrega obrigatoria' });
-    if (!descricao?.trim() && itens.length === 0)
-      return res.status(400).json({ erro: 'Adicione pelo menos um item ou descreva a encomenda' });
 
     const criar = db.transaction(() => {
       const r = db.prepare(`

@@ -242,9 +242,8 @@ export default function Encomendas() {
   // ── Salvar ────────────────────────────────────────────────────────────────
   const salvar = async () => {
     if (!form.cliente_nome.trim()) return toast.error('Nome do cliente obrigatorio');
+    if (!form.descricao.trim()) return toast.error('Descreva o que foi encomendado');
     if (!form.data_entrega) return toast.error('Data de entrega obrigatoria');
-    if (form.itens.length === 0 && !form.descricao.trim())
-      return toast.error('Adicione pelo menos um item ou descreva a encomenda');
 
     setSalvando(true);
     try {
@@ -689,10 +688,23 @@ export default function Encomendas() {
                 </div>
               </div>
 
+              {/* Descricao (importante!) - movida para cima dos itens */}
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">
+                  O que foi encomendado *
+                </label>
+                <textarea
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange-500 resize-none"
+                  placeholder="Ex: 1 bolo de chocolate com morango, 50 coxinhas, recheio especial..."
+                  rows={3}
+                  value={form.descricao}
+                  onChange={e => setForm({ ...form, descricao: e.target.value })} />
+              </div>
+
               {/* ── Itens ─────────────────────────────────────────────────── */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-bold text-gray-700">Itens da encomenda</label>
+                  <label className="text-sm font-bold text-gray-700">Itens por setor (opcional)</label>
                   <button type="button" onClick={() => setAddingCustom(v => !v)}
                     className="text-xs text-orange-600 font-bold flex items-center gap-1">
                     <Plus size={13} /> Item personalizado
@@ -790,19 +802,6 @@ export default function Encomendas() {
                     Busque produtos acima ou adicione um item personalizado
                   </p>
                 )}
-              </div>
-
-              {/* Descricao livre (opcional) */}
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1.5">
-                  Descricao / notas adicionais {form.itens.length > 0 ? '(opcional)' : '*'}
-                </label>
-                <textarea
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange-500 resize-none"
-                  placeholder="Detalhes extras, recheio especial, como entregar..."
-                  rows={2}
-                  value={form.descricao}
-                  onChange={e => setForm({ ...form, descricao: e.target.value })} />
               </div>
 
               {/* Valores */}
